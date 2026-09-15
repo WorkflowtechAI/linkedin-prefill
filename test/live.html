@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>LinkedIn Prefill — live extension check</title>
+  </head>
+  <body>
+    <!-- Deliberately script-free. Anything that ends up in these fields was put
+         there by a real installed extension, not by a test harness. -->
+    <h1>Live extension check</h1>
+
+    <form>
+      <label for="fill-label">LinkedIn Profile URL</label>
+      <input id="fill-label" type="text" /><br />
+
+      <label for="skip-social">Social</label>
+      <input id="skip-social" type="text" placeholder="Your LinkedIn URL" /><br />
+
+      <input id="fill-placeholder-only" type="text" placeholder="Your LinkedIn URL" /><br />
+
+      <label for="skip-website">Website</label>
+      <input id="skip-website" type="text" data-automation-id="linkedinQuestion" /><br />
+
+      <label for="skip-contact">Contact</label>
+      <input id="skip-contact" type="text" aria-label="LinkedIn profile link" /><br />
+
+      <label for="skip-portfolio">Portfolio URL</label>
+      <input id="skip-portfolio" type="text" />
+    </form>
+  </body>
+</html>

@@ -92,17 +92,43 @@ you typed and one checkbox, in your browser's own sync storage.
 
 ## Tests
 
-`test/fixture.html` runs the real `src/content.js` against the field shapes above
-with a stubbed storage API, including a React-style value tracker that fails the
-run if the value is written the naive way. Serve the folder and open it:
+Three, in order of how much they prove.
+
+**Is it loadable?** Checks the manifest against what MV3 requires, that every
+path it names exists, that each icon really is the pixel size it is declared at,
+that the pages' scripts resolve, and that all of it parses.
+
+```bash
+python tools/check.py
+```
+
+**Does the matching work?** `test/fixture.html` runs the real `src/content.js`
+against every field shape above with a stubbed storage API, including a
+React-style value tracker that fails the run if the value is written the naive
+way. Serve the folder, because `file://` blocks the script loads:
 
 ```bash
 python -m http.server 8777
 ```
 
-Then open <http://127.0.0.1:8777/test/fixture.html?mode=full> for the saved-profile
-run and `?mode=prefix` for the prefix-only run. The page reports PASS or FAIL per
-check. It has to be served over HTTP; `file://` blocks the script loads.
+Then open <http://127.0.0.1:8777/test/fixture.html?mode=full> for the
+saved-profile run, and `?mode=prefix` for the prefix-only run. The page reports
+PASS or FAIL per check.
+
+**Does the extension actually work?** The two above prove the parts. This one
+launches a real browser, loads this folder as an unpacked extension, points it at
+a page with no scripts of its own, and reads back what got filled. Anything in
+those fields was put there by the extension.
+
+```bash
+node tools/live-check.mjs
+```
+
+It needs Node 22 or newer, and it will pick up a Chromium that Playwright has
+already downloaded. Note that branded Google Chrome has ignored the
+`--load-extension` *command-line flag* since version 137, so pointing this at one
+reports empty fields and a note saying so. Loading the folder by hand from
+`chrome://extensions` is unaffected and works fine.
 
 ## Icons
 
