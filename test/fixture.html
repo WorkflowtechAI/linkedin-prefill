@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>LinkedIn Prefill — field detection fixture</title>
+    <style>
+      body {
+        font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        margin: 0;
+        padding: 24px;
+        background: #14171c;
+        color: #e8eaee;
+      }
+      h1 { font-size: 16px; margin: 0 0 4px; }
+      p.sub { margin: 0 0 20px; color: #9aa1ae; font-size: 12.5px; }
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+      @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+      fieldset { border: 1px solid #333944; border-radius: 8px; padding: 14px 16px 18px; margin: 0 0 16px; }
+      legend { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #9aa1ae; padding: 0 6px; }
+      label, .fauxlabel { display: block; font-weight: 600; font-size: 12px; margin: 12px 0 5px; }
+      input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 7px 9px;
+        border: 1px solid #3a4049;
+        border-radius: 5px;
+        background: #0f1216;
+        color: #e8eaee;
+        font: inherit;
+        font-size: 12.5px;
+      }
+      #results { font-family: ui-monospace, Consolas, monospace; font-size: 12px; }
+      #summary { font-size: 15px; font-weight: 700; padding: 10px 14px; border-radius: 6px; margin: 0 0 12px; }
+      .pass { background: #17351f; color: #7ee2a0; }
+      .fail { background: #3a1a1a; color: #ff9c8d; }
+      #results div { padding: 3px 0; border-bottom: 1px solid #252a32; }
+      #results b { display: inline-block; width: 46px; }
+      #results .ok b { color: #7ee2a0; }
+      #results .no b { color: #ff9c8d; }
+      #results .no { color: #ffc9c0; }
+      nav { margin-bottom: 18px; }
+      nav a { color: #6cb0f5; margin-right: 14px; font-size: 12.5px; }
+    </style>
+  </head>
+  <body>
+    <h1>LinkedIn Prefill — field detection fixture</h1>
+    <p class="sub">
+      Loads <code>src/content.js</code> against real-world field shapes with a stubbed
+      <code>chrome.storage</code>. No extension install needed.
+    </p>
+    <nav>
+      <a href="?mode=full">Run with a saved profile</a>
+      <a href="?mode=prefix">Run with no profile (prefix only)</a>
+    </nav>
+
+    <div class="grid">
+      <div>
+        <fieldset>
+          <legend>Should fill</legend>
+
+          <label for="gh-li">LinkedIn Profile URL</label>
+          <input id="gh-li" type="text" />
+
+          <div class="fauxlabel" id="lbl-aria">LinkedIn</div>
+          <input id="ashby-li" type="text" aria-labelledby="lbl-aria" />
+
+          <label for="ph-li">Social</label>
+          <input id="ph-li" type="text" placeholder="Your LinkedIn URL" />
+
+          <label for="nm-li">Profile</label>
+          <input id="nm-li" type="text" name="urls[LinkedIn]" />
+
+          <label for="wd-li">Website</label>
+          <input id="wd-li" type="text" data-automation-id="linkedinQuestion" />
+
+          <div class="wrapper">
+            <div class="fauxlabel">Linked In profile (optional)</div>
+            <div><input id="anc-li" type="text" /></div>
+          </div>
+
+          <label for="aria-li">Contact</label>
+          <input id="aria-li" type="text" aria-label="LinkedIn profile link" />
+        </fieldset>
+      </div>
+
+      <div>
+        <fieldset>
+          <legend>Should not touch</legend>
+
+          <label for="neg-portfolio">Portfolio URL</label>
+          <input id="neg-portfolio" type="text" />
+
+          <label for="neg-github">GitHub</label>
+          <input id="neg-github" type="text" placeholder="https://github.com/you" />
+
+          <label for="neg-company">Company LinkedIn page</label>
+          <input id="neg-company" type="text" />
+
+          <label for="neg-prefilled">LinkedIn (already answered)</label>
+          <input id="neg-prefilled" type="text" value="https://www.linkedin.com/in/someone-else" />
+
+          <label for="neg-email">LinkedIn sign in email</label>
+          <input id="neg-email" type="email" />
+        </fieldset>
+
+        <fieldset>
+          <legend>Added after load (MutationObserver)</legend>
+          <div id="late"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Framework-controlled field (React-style value tracker)</legend>
+          <label for="react-li">LinkedIn Profile URL</label>
+          <input id="react-li" type="text" />
+        </fieldset>
+      </div>
+    </div>
+
+    <h2 style="font-size: 14px; margin: 24px 0 10px">Results</h2>
+    <div id="summary">running…</div>
+    <div id="results"></div>
+
+    <script src="shim.js"></script>
+    <script src="../src/linkedin-url.js"></script>
+    <script src="../src/content.js"></script>
+    <script src="assert.js"></script>
+  </body>
+</html>

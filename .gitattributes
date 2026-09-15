@@ -1,0 +1,2 @@
+# Text is normalized to LF in the repo, so a clone reads the same on every OS.
+* text=auto eol=lf

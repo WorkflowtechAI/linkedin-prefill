@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "LinkedIn Prefill",
+  "version": "1.0.0",
+  "description": "Fills the LinkedIn profile field on job applications. Your URL if you set one, the https://www.linkedin.com/in/ prefix if you don't.",
+  "homepage_url": "https://github.com/WorkflowtechAI/linkedin-prefill",
+  "permissions": ["storage"],
+  "action": {
+    "default_title": "LinkedIn Prefill",
+    "default_popup": "src/options.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "options_ui": {
+    "page": "src/options.html",
+    "open_in_tab": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "exclude_matches": ["*://*.linkedin.com/*"],
+      "js": ["src/linkedin-url.js", "src/content.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "linkedin-prefill@workflowtech.ai",
+      "strict_min_version": "115.0"
+    }
+  }
+}

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>LinkedIn Prefill</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #ffffff;
+        --fg: #16181d;
+        --muted: #5c6270;
+        --line: #d9dce3;
+        --field: #ffffff;
+        --accent: #0a66c2;
+        --ok: #157347;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #1c1f26;
+          --fg: #e8eaee;
+          --muted: #9aa1ae;
+          --line: #363b45;
+          --field: #12151a;
+          --accent: #4f9cea;
+          --ok: #5fbf85;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 18px 20px 20px;
+        min-width: 340px;
+        max-width: 560px;
+        background: var(--bg);
+        color: var(--fg);
+        font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      h1 { font-size: 15px; margin: 0 0 2px; letter-spacing: -0.01em; }
+      p.sub { margin: 0 0 16px; color: var(--muted); font-size: 12.5px; }
+      label.field { display: block; font-weight: 600; font-size: 12.5px; margin-bottom: 6px; }
+      input[type="text"] {
+        width: 100%;
+        padding: 9px 10px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--field);
+        color: var(--fg);
+        font: inherit;
+        font-size: 13px;
+      }
+      input[type="text"]:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: transparent; }
+      .preview {
+        margin: 8px 0 0;
+        font-size: 12px;
+        color: var(--muted);
+        word-break: break-all;
+        min-height: 18px;
+      }
+      .preview code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; color: var(--fg); }
+      .preview.bad { color: #c0392b; }
+      @media (prefers-color-scheme: dark) { .preview.bad { color: #ff8a7a; } }
+      .toggle { display: flex; align-items: flex-start; gap: 9px; margin: 16px 0 18px; }
+      .toggle input { margin: 3px 0 0; accent-color: var(--accent); }
+      .toggle span { font-size: 12.5px; color: var(--muted); }
+      .row { display: flex; align-items: center; gap: 12px; }
+      button {
+        padding: 8px 16px;
+        border: 0;
+        border-radius: 6px;
+        background: var(--accent);
+        color: #fff;
+        font: inherit;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      button:hover { filter: brightness(1.08); }
+      #status { font-size: 12.5px; color: var(--ok); opacity: 0; transition: opacity 0.15s; }
+      #status.show { opacity: 1; }
+      footer {
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 1px solid var(--line);
+        font-size: 11.5px;
+        color: var(--muted);
+      }
+      footer a { color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <h1>LinkedIn Prefill</h1>
+    <p class="sub">One job: fill the LinkedIn field on application forms.</p>
+
+    <label class="field" for="url">Your LinkedIn profile</label>
+    <input
+      id="url"
+      type="text"
+      spellcheck="false"
+      autocomplete="off"
+      placeholder="david-george-braun"
+    />
+    <p class="preview" id="preview"></p>
+
+    <div class="toggle">
+      <input id="autofill" type="checkbox" />
+      <label for="autofill"><span>Fill the field as soon as the form loads.</span></label>
+    </div>
+
+    <div class="row">
+      <button id="save" type="button">Save</button>
+      <span id="status">Saved</span>
+    </div>
+
+    <footer>
+      Leave the profile blank and the field gets the
+      <code>https://www.linkedin.com/in/</code> prefix, so only the slug is left
+      to type. Nothing is read from the page and nothing leaves your browser.
+    </footer>
+
+    <script src="linkedin-url.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>
