@@ -5,21 +5,23 @@
   var EXPECTED = T.expected;
 
   var FILLS = [
-    ['gh-li', 'label[for] — "LinkedIn Profile URL" (Greenhouse shape)'],
-    ['ashby-li', 'aria-labelledby — "LinkedIn"'],
-    ['ph-li', 'placeholder only — "Your LinkedIn URL"'],
-    ['nm-li', 'name only — urls[LinkedIn]'],
-    ['wd-li', 'data-automation-id — linkedinQuestion (Workday shape)'],
-    ['anc-li', 'no label association — text in the wrapping block'],
-    ['aria-li', 'aria-label — "LinkedIn profile link"'],
+    ['gh-li', 'label[for] says "LinkedIn Profile URL" (Greenhouse shape)'],
+    ['ashby-li', 'aria-labelledby points at a visible "LinkedIn"'],
+    ['wd-li', 'label says "LinkedIn" (Workday shape)'],
+    ['ph-li', 'no label, and the placeholder says "Your LinkedIn URL"'],
+    ['anc-li', 'no label element, and the block around it says "Linked In profile"'],
     ['late-li', 'field injected 500ms after load (MutationObserver)'],
     ['react-li', 'framework-controlled field']
   ];
 
   var SKIPS = [
+    ['neg-website', 'label says "Website" — a data-automation-id of linkedinQuestion gets no vote'],
+    ['neg-contact', 'label says "Contact" — an aria-label of "LinkedIn profile link" gets no vote'],
+    ['neg-social', 'label says "Social" — a placeholder of "Your LinkedIn URL" gets no vote'],
+    ['neg-profile', 'label says "Profile" — a name of urls[LinkedIn] gets no vote'],
     ['neg-portfolio', 'unrelated field — "Portfolio URL"'],
     ['neg-github', 'unrelated field — GitHub'],
-    ['neg-company', 'mentions LinkedIn but asks for the company page'],
+    ['neg-company', 'says LinkedIn, but asks for the company page'],
     ['neg-email', 'type=email — "LinkedIn sign in email"']
   ];
 

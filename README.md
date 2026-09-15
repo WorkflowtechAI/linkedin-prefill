@@ -52,23 +52,30 @@ still skip the prefix.
 
 ## How it finds the field
 
-For every text field on the page it gathers what the page says about that
-field: the `<label for>`, an enclosing `<label>`, `aria-label`,
-`aria-labelledby`, the placeholder, the `name`, the `id`, and the `data-qa` /
-`data-testid` / `data-automation-id` hooks that Greenhouse, Lever, Ashby and
-Workday hang off their inputs. If none of those mention LinkedIn it falls back
-to the text of the block around the field, but only when that block holds this
-one field and nothing else. That last guard is what keeps a *Connect with
-LinkedIn* button at the top of the form from claiming an unrelated input.
+One rule: **what the form calls the field has to say LinkedIn.** That is its
+`<label>`, or its placeholder when it has no label, or the text of the block
+around it when it has neither. Nothing else gets a vote.
+
+So a field labelled *Website*, *Contact*, *Social* or *Profile* is left alone,
+however loudly a `name="urls[LinkedIn]"`, an `aria-label` or a Workday
+`data-automation-id="linkedinQuestion"` underneath it says otherwise. If the
+person filling the form cannot see it, it does not count as asking. The
+block-text fallback only applies when that block holds this one field and
+nothing else, which is what keeps a *Connect with LinkedIn* button at the top of
+the form from claiming an unrelated input.
+
+That is stricter than it could be, and deliberately. The cost of a miss is that
+you paste one URL yourself. The cost of a false positive is your LinkedIn sitting
+in the box where your portfolio was supposed to go, on a form you already sent.
 
 It writes the value through the native `HTMLInputElement` setter and then fires
 `input` and `change`. That detail is the whole ballgame on a React form:
 assigning `.value` directly looks like nothing happened to React's value
 tracker, and the field reverts on the next render.
 
-It leaves a field alone when it already has an answer, when it is disabled or
-read-only, when the label points at a company page or a login rather than your
-profile, and on `linkedin.com` itself. Forms that add their fields late are
+It also leaves a field alone when it already has an answer, when it is disabled
+or read-only, when the label points at a company page or a login rather than
+your own profile, and on `linkedin.com` itself. Forms that add their fields late are
 covered by a `MutationObserver`, so an application that renders one section at a
 time still gets filled.
 

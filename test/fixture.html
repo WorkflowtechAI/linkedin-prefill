@@ -56,7 +56,7 @@
     <div class="grid">
       <div>
         <fieldset>
-          <legend>Should fill</legend>
+          <legend>Should fill — the form says LinkedIn out loud</legend>
 
           <label for="gh-li">LinkedIn Profile URL</label>
           <input id="gh-li" type="text" />
@@ -64,34 +64,44 @@
           <div class="fauxlabel" id="lbl-aria">LinkedIn</div>
           <input id="ashby-li" type="text" aria-labelledby="lbl-aria" />
 
-          <label for="ph-li">Social</label>
-          <input id="ph-li" type="text" placeholder="Your LinkedIn URL" />
-
-          <label for="nm-li">Profile</label>
-          <input id="nm-li" type="text" name="urls[LinkedIn]" />
-
-          <label for="wd-li">Website</label>
+          <label for="wd-li">LinkedIn</label>
           <input id="wd-li" type="text" data-automation-id="linkedinQuestion" />
+
+          <div class="fauxlabel">no label at all, placeholder only &darr;</div>
+          <input id="ph-li" type="text" placeholder="Your LinkedIn URL" />
 
           <div class="wrapper">
             <div class="fauxlabel">Linked In profile (optional)</div>
             <div><input id="anc-li" type="text" /></div>
           </div>
-
-          <label for="aria-li">Contact</label>
-          <input id="aria-li" type="text" aria-label="LinkedIn profile link" />
         </fieldset>
       </div>
 
       <div>
         <fieldset>
-          <legend>Should not touch</legend>
+          <legend>Should not touch — the label does not say LinkedIn</legend>
+
+          <label for="neg-website">Website</label>
+          <input id="neg-website" type="text" data-automation-id="linkedinQuestion" />
+
+          <label for="neg-contact">Contact</label>
+          <input id="neg-contact" type="text" aria-label="LinkedIn profile link" />
+
+          <label for="neg-social">Social</label>
+          <input id="neg-social" type="text" placeholder="Your LinkedIn URL" />
+
+          <label for="neg-profile">Profile</label>
+          <input id="neg-profile" type="text" name="urls[LinkedIn]" />
 
           <label for="neg-portfolio">Portfolio URL</label>
           <input id="neg-portfolio" type="text" />
 
           <label for="neg-github">GitHub</label>
           <input id="neg-github" type="text" placeholder="https://github.com/you" />
+        </fieldset>
+
+        <fieldset>
+          <legend>Should not touch — says LinkedIn, still not your profile</legend>
 
           <label for="neg-company">Company LinkedIn page</label>
           <input id="neg-company" type="text" />

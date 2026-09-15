@@ -9,7 +9,9 @@
   var ASKS_FOR_LINKEDIN = /linked\s*[-_]?\s*in/i;
 
   // Fields that mention LinkedIn but are not "paste your profile URL here".
-  var NOT_YOURS = /\b(company|organization|organisation|employer|recruiter|password|sign\s?in|log\s?in|search)\b/i;
+  // "website" and friends are in here because a field presenting itself as your
+  // website is your website, whatever a hidden attribute on it happens to say.
+  var NOT_YOURS = /\b(company|organization|organisation|employer|recruiter|password|sign\s?in|log\s?in|search|web\s?site|personal\s?site|home\s?page|portfolio|blog)\b/i;
 
   var FILLABLE_TYPE = /^(text|url|search|)$/i;
 
@@ -62,25 +64,19 @@
     return best;
   }
 
-  // Everything the page says about this field, as one string.
-  function describe(el) {
-    var parts = [
-      el.getAttribute('aria-label'),
-      labelledByText(el),
-      forLabelText(el),
-      textOf(el.closest('label')),
-      el.getAttribute('placeholder'),
-      el.getAttribute('name'),
-      el.id,
-      el.getAttribute('data-qa'),
-      el.getAttribute('data-automation-id'),
-      el.getAttribute('data-testid'),
-      el.getAttribute('title')
-    ];
+  function labelText(el) {
+    return [labelledByText(el), forLabelText(el), textOf(el.closest('label'))].filter(Boolean).join(' ');
+  }
 
-    var own = parts.filter(Boolean).join(' ');
-    if (ASKS_FOR_LINKEDIN.test(own)) return own;
-    return own + ' ' + ancestorText(el);
+  // What the form calls this field, out loud: its label, or its placeholder when
+  // it has no label, or the text of the block it sits in when it has neither.
+  //
+  // This is the only thing that decides. A field the form calls "Website",
+  // "Contact", "Social" or "Profile" is that field, however loudly a name, an
+  // aria-label or a data attribute underneath it says linkedin. Hidden markup
+  // gets no vote, because the person filling the form cannot see it either.
+  function describe(el) {
+    return labelText(el) || (el.getAttribute('placeholder') || '').trim() || ancestorText(el);
   }
 
   // ----------------------------------------------------------------- fill
