@@ -68,15 +68,33 @@
     return [labelledByText(el), forLabelText(el), textOf(el.closest('label'))].filter(Boolean).join(' ');
   }
 
-  // What the form calls this field, out loud: its label, or its placeholder when
-  // it has no label, or the text of the block it sits in when it has neither.
+  // Markup the person filling the form cannot see.
+  function hiddenHints(el) {
+    return [
+      el.getAttribute('aria-label'),
+      el.getAttribute('name'),
+      el.id,
+      el.getAttribute('data-qa'),
+      el.getAttribute('data-automation-id'),
+      el.getAttribute('data-testid'),
+      el.getAttribute('title')
+    ]
+      .filter(Boolean)
+      .join(' ');
+  }
+
+  // The first of these the form actually offers decides, and the rest are never
+  // consulted: the label, then the placeholder, then the text of the block it
+  // sits in, and only if it shows none of those, the hidden markup.
   //
-  // This is the only thing that decides. A field the form calls "Website",
-  // "Contact", "Social" or "Profile" is that field, however loudly a name, an
-  // aria-label or a data attribute underneath it says linkedin. Hidden markup
-  // gets no vote, because the person filling the form cannot see it either.
+  // So a visible label is a veto. A field the form calls "Website", "Contact",
+  // "Social" or "Profile" is that field, however loudly a name or a data
+  // attribute underneath it says linkedin: the label is the promise the form
+  // made to the person filling it in. But a field that tells the reader nothing
+  // at all has only its markup to go on, and there a name of "urls[LinkedIn]" or
+  // a data-automation-id of "linkedinQuestion" is exactly what it looks like.
   function describe(el) {
-    return labelText(el) || (el.getAttribute('placeholder') || '').trim() || ancestorText(el);
+    return labelText(el) || (el.getAttribute('placeholder') || '').trim() || ancestorText(el) || hiddenHints(el);
   }
 
   // ----------------------------------------------------------------- fill

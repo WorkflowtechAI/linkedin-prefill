@@ -23,7 +23,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const PREFIX = 'https://www.linkedin.com/in/';
 
-const EXPECT_FILLED = ['fill-label', 'fill-placeholder-only'];
+const EXPECT_FILLED = ['fill-label', 'fill-placeholder-only', 'fill-hidden-name', 'fill-hidden-auto'];
 const EXPECT_EMPTY = ['skip-social', 'skip-website', 'skip-contact', 'skip-portfolio'];
 
 // Branded Google Chrome stopped honouring --load-extension in 137: it logs

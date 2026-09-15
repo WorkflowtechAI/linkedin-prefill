@@ -52,21 +52,28 @@ still skip the prefix.
 
 ## How it finds the field
 
-One rule: **what the form calls the field has to say LinkedIn.** That is its
-`<label>`, or its placeholder when it has no label, or the text of the block
-around it when it has neither. Nothing else gets a vote.
+**The first thing the form actually offers decides, and the rest are never
+consulted.** In order: the field's `<label>`, then its placeholder, then the text
+of the block around it, and only if it shows none of those, its hidden markup —
+`name`, `aria-label`, `id`, `data-qa`, `data-testid`, `data-automation-id`,
+`title`.
 
-So a field labelled *Website*, *Contact*, *Social* or *Profile* is left alone,
-however loudly a `name="urls[LinkedIn]"`, an `aria-label` or a Workday
-`data-automation-id="linkedinQuestion"` underneath it says otherwise. If the
-person filling the form cannot see it, it does not count as asking. The
-block-text fallback only applies when that block holds this one field and
-nothing else, which is what keeps a *Connect with LinkedIn* button at the top of
-the form from claiming an unrelated input.
+Which makes a visible label a veto. A field labelled *Website*, *Contact*,
+*Social* or *Profile* is left alone however loudly a `name="urls[LinkedIn]"` or a
+Workday `data-automation-id="linkedinQuestion"` underneath it says otherwise,
+because that label is the promise the form made to the person filling it in.
 
-That is stricter than it could be, and deliberately. The cost of a miss is that
-you paste one URL yourself. The cost of a false positive is your LinkedIn sitting
-in the box where your portfolio was supposed to go, on a form you already sent.
+A field that shows the reader nothing at all is a different case, and there the
+markup is the only evidence going. `name="urls[LinkedIn]"` on an unlabelled input
+means exactly what it looks like, and gets filled.
+
+The block-text step only applies when that block holds this one field and nothing
+else, which is what keeps a *Connect with LinkedIn* button at the top of the form
+from claiming an unrelated input.
+
+The bias throughout is toward doing nothing. The cost of a miss is that you paste
+one URL yourself. The cost of a false positive is your LinkedIn sitting in the box
+where your portfolio was supposed to go, on a form you already sent.
 
 It writes the value through the native `HTMLInputElement` setter and then fires
 `input` and `change`. That detail is the whole ballgame on a React form:

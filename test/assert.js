@@ -10,6 +10,9 @@
     ['wd-li', 'label says "LinkedIn" (Workday shape)'],
     ['ph-li', 'no label, and the placeholder says "Your LinkedIn URL"'],
     ['anc-li', 'no label element, and the block around it says "Linked In profile"'],
+    ['hid-name', 'nothing visible at all, and name is urls[LinkedIn]'],
+    ['hid-aria', 'nothing visible at all, and aria-label is "LinkedIn profile URL"'],
+    ['hid-auto', 'nothing visible at all, and data-automation-id is linkedinQuestion'],
     ['late-li', 'field injected 500ms after load (MutationObserver)'],
     ['react-li', 'framework-controlled field']
   ];
